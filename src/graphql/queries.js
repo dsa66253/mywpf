@@ -1,14 +1,14 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
-
-export const STATS_COUNT_QUERY = gql`
-    query statsCount(
-        $locationKeywords: [String!]!
-        $severity: Int
-    ) {
-        statsCount(
-            locationKeywords: $locationKeywords,
-            severity: $severity,
-        )
+const USERLOGIN_QUERY = gql`
+  query queryLoginUser($username: String, $password: String) 
+  {
+    queryLoginUser(username: $username, password: $password) {
+      detail
+      success
+      admin
     }
+  }
 `;
+
+export { USERLOGIN_QUERY };
