@@ -21,6 +21,7 @@ const newChatBox = (db, chatBoxName)=>{
 const checkUser = (db, name)=>{
     if(!name) 
         throw new Error("Missing user name for" + name);
+        console.log("go to db to find data")
     return db.UserModel.findOne({username:name});
 }
 const newUser = (db, name)=>{
