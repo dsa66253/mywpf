@@ -1,45 +1,60 @@
-type Person {
-    ssn: String!
-    name: ID!
-    location: Location
-    severity: Int!
+type Mutation{
+    createChatBox(name1: String, name2: String): ChatBox
+    createMessage(type:String, sender: String, body: String, date: String, read:String, chatBoxName:String): Message
+    createPost(author: String, title: String, body: String, type: String, date: String): Post
+    createUser(username:String, email: String, studentID:String, password:String, picture:String, online:Boolean, friends:[String]):createUserResponse
+}
+type Query{
+    queryChatBox(name1:String, name2:String):ChatBox
+    queryAllPosts: [Post]
+    # queryPost:String
+    queryUser(username:String): User
+    queryLoginUser(username:String, password:String): LoginResponse
+}
+type Subscription{
+    chatBox(chatBoxName:String):Message
+    test:String
+}
+type LoginResponse{
+    success: Boolean
+    detail: String
+    admin: Boolean
 }
 
-type Location {
-    name: String!
-    description: String!  
-    # e.g. "10617 臺北市羅斯福路四段一號; No.1, Sec. 4, Roosevelt Road, Taipei, 10617 Taiwan."
-    # 用 string match 查每個縣市的確診數
+type createUserResponse{
+  username:String!
+  success:Boolean!
+  detail:String!
+}
+type ChatBox{
+    id: ID
+    name: String
+    messages: [Message]
+}
+type Message{
+    type: String
+    sender: String
+    body: String
+    date: String
+    read:[String]
+    chatBoxName: String
+}
+type Post{
+    id: ID
+    author: User
+    title: String
+    body: String
+    type: String
+    date: String
 }
 
-type Query {
-    statsCount(
-        severity: Int,
-        locationKeywords: [String!]!,
-    ): [Int!]
-}
-
-type Mutation {
-    insertPeople(data: [PersonInput!]!): Boolean
-}
-
-input PersonInput {
-    ssn: String!
-    name: String!
-    severity: Int!
-    location: LocationInput
-}
-
-input LocationInput {
-    name: String!
-    description: String!
-}
-
-type Subscription {
-    people: PeopleSubscriptionPayload
-}
-
-type PeopleSubscriptionPayload {
-    inserted: [Person!]!
-    deleted: [Person!]!
+type User{
+    username:String
+    email:String
+    studentID:String
+    password:String
+    picture:String
+    online:Boolean
+    friends:[String]
+    admin:Boolean
 }

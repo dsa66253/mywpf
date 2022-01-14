@@ -8,12 +8,22 @@ import "dotenv-defaults/config.js";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import db from "./backend/db.js";
+import * as db from './backend/db.js';
 import Query from "./backend/resolvers/Query.js";
 import Mutation from "./backend/resolvers/Mutation.js";
 import Subscription from "./backend/resolvers/Subscription.js";
-import mongo from "./backend/mongo.js";
+// import mongo from "./backend/mongo.js";
 import apiRoute from "./backend/route/api.js";
+
+import  { mongo } from "./backend/mongo/mongo.js"
+
+
+let onLineUserArray = [];
+const setonLineUserArray = (newOnLineUserArray)=>{
+  onLineUserArray = [...newOnLineUserArray];
+}
+export {onLineUserArray, setonLineUserArray};
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 80;
@@ -47,7 +57,7 @@ server.applyMiddleware({ app });
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
-mongo.connect();
+mongo();
 
 httpServer.listen(port, () => {
   console.log(`🚀 Server Ready at ${port}! 🚀`);
