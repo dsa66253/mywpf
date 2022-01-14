@@ -24,6 +24,7 @@ const Query = {
     async queryUser(parent, {username}, { db }, info){
         // use to queryUser details
         let user = checkUser(db, username)
+        console.log("after checkUser()")
         if (!user) throw new Error("Missing chatBox name for CreateChatBox");
         return user
 
